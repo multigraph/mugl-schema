@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	    elementFormDefault="qualified">
+
+  <xsd:element name="mugl" type="Graph"/>
+
+  <xsd:complexType name="Graph">
+    <xsd:choice>
+      <xsd:group ref="GraphContent"/>
+      <xsd:element name="graph" type="Graph" minOccurs="1" maxOccurs="unbounded"/>
+    </xsd:choice>
+  </xsd:complexType>
+
+  <xsd:group name="GraphContent">
+    <xsd:sequence>
+      <xsd:element name="window"         type="Window"     minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="legend"         type="MuglLegend" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="background"     type="Background" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="plotarea"       type="Plotarea"   minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="horizontalaxis" type="Axis"       minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="verticalaxis"   type="Axis"       minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="plot"           type="Plot"       minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="data"           type="Data"       minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:group>
+
+  <xsd:complexType name="Window">
+    <xsd:attribute name="width"   type="xsd:integer"/>
+    <xsd:attribute name="height"  type="xsd:integer"/>
+    <xsd:attribute name="border"  type="xsd:integer"/>
+    <xsd:attribute name="margin"  type="xsd:integer"/>
+    <xsd:attribute name="padding" type="xsd:integer"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="MuglLegend">
+    <xsd:sequence>
+      <xsd:element name="icon"         type="LegendIcon" minOccurs="0"/>
+    </xsd:sequence>
+    <xsd:attribute name="visible"/>
+    <xsd:attribute name="base"/>
+    <xsd:attribute name="anchor"/>
+    <xsd:attribute name="position"/>
+    <xsd:attribute name="frame"/>
+    <xsd:attribute name="color"/>
+    <xsd:attribute name="bordercolor"/>
+    <xsd:attribute name="opacity"      type="xsd:decimal"/>
+    <xsd:attribute name="border"       type="xsd:integer"/>
+    <xsd:attribute name="rows"         type="xsd:integer"/>
+    <xsd:attribute name="columns"      type="xsd:integer"/>
+    <xsd:attribute name="cornerradius" type="xsd:integer"/>
+    <xsd:attribute name="padding" type="xsd:integer"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="LegendIcon">
+    <xsd:attribute name="height" type="xsd:integer"/>
+    <xsd:attribute name="width"  type="xsd:integer"/>
+    <xsd:attribute name="border" type="xsd:integer"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="Background">
+    <xsd:sequence>
+      <xsd:element name="img"          type="BackgroundImage" minOccurs="0" maxOccurs="1"/>
+    </xsd:sequence>
+    <xsd:attribute name="color"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="BackgroundImage">
+    <xsd:attribute name="src"          type="xsd:string" use="required"/>
+    <xsd:attribute name="anchor"       type="xsd:string"/>
+    <xsd:attribute name="base"         type="xsd:string"/>
+    <xsd:attribute name="position"     type="xsd:string"/>
+    <xsd:attribute name="frame"        type="xsd:string"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="Plotarea">
+    <xsd:attribute name="marginbottom" type="xsd:integer"/>
+    <xsd:attribute name="marginleft"   type="xsd:integer"/>
+    <xsd:attribute name="margintop"    type="xsd:integer"/>
+    <xsd:attribute name="marginright"  type="xsd:integer"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="Axis">
+    <xsd:sequence>
+      <xsd:element name="title"   type="Title"   minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="labels"  type="Labels"  minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="grid"    type="Grid"    minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="pan"     type="Pan"     minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="zoom"    type="Zoom"    minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="binding" type="Binding" minOccurs="0" maxOccurs="1"/>
+    </xsd:sequence>
+    <xsd:attribute name="id"     type="xsd:string"/>
+    <xsd:attribute name="type"   type="DataType"/>
+    <xsd:attribute name="length"/>
+    <xsd:attribute name="position"/>
+    <xsd:attribute name="anchor" type="xsd:decimal"/>
+    <xsd:attribute name="base"   type="xsd:string"/>
+    <xsd:attribute name="min"/>
+    <xsd:attribute name="minposition"/>
+    <xsd:attribute name="max"/>
+    <xsd:attribute name="maxposition"/>
+    <xsd:attribute name="positionbase"/>
+  </xsd:complexType>
+
+  <xsd:simpleType name="DataType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="unknown"/>
+      <xsd:enumeration value="number"/>
+      <xsd:enumeration value="datetime"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="DataValueString">
+    <xsd:restriction base="xsd:string">
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name="Title" mixed="true">
+    <xsd:attribute name="position"/>
+    <xsd:attribute name="anchor"/>
+    <xsd:attribute name="angle" type="xsd:decimal"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="Grid">
+    <xsd:attribute name="color"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="Labels">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="label" type="Label"/>
+    </xsd:sequence>
+    <xsd:attribute name="format"   type="xsd:string"/>
+    <xsd:attribute name="start"    type="xsd:string"/>
+    <xsd:attribute name="angle"    type="xsd:decimal"/>
+    <xsd:attribute name="position"/>
+    <xsd:attribute name="anchor"/>
+    <xsd:attribute name="spacing"  type="xsd:string"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="Label">
+    <xsd:attribute name="format"   type="xsd:string"/>
+    <xsd:attribute name="start"    type="xsd:string"/>
+    <xsd:attribute name="angle"    type="xsd:decimal"/>
+    <xsd:attribute name="position"/>
+    <xsd:attribute name="anchor"/>
+    <xsd:attribute name="spacing"  type="xsd:string" use="required"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="Pan">
+    <xsd:attribute name="allowed"/>
+    <xsd:attribute name="min"/>
+    <xsd:attribute name="max"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="Zoom">
+    <xsd:attribute name="allowed"/>
+    <xsd:attribute name="min"/>
+    <xsd:attribute name="max"/>
+    <xsd:attribute name="anchor"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="Binding">
+    <xsd:attribute name="id" use="required"/>
+    <xsd:attribute name="min" use="required"/>
+    <xsd:attribute name="max" use="required"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="Plot">
+    <xsd:all>
+      <xsd:element name="legend"         type="PlotLegend" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="horizontalaxis" type="PlotAxis"   minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="verticalaxis"   type="PlotAxis"   minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="renderer"       type="Renderer"   minOccurs="0" maxOccurs="1"/>
+    </xsd:all>
+  </xsd:complexType>
+
+  <xsd:complexType name="PlotAxis">
+    <xsd:sequence>
+      <xsd:element name="variable" type="PlotVariable" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="constant" type="PlotConstant" minOccurs="0" maxOccurs="1"/>
+    </xsd:sequence>
+    <xsd:attribute name="ref" type="xsd:string" use="required"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="PlotVariable">
+    <xsd:attribute name="ref" type="xsd:string" use="required"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="PlotConstant">
+    <xsd:attribute name="value" type="xsd:string" use="required"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="Renderer">
+    <xsd:sequence>
+      <xsd:element name="option" type="RendererOption" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="type" type="RendererType" use="required"/>
+  </xsd:complexType>
+
+  <xsd:simpleType name="RendererType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="line"/>
+      <xsd:enumeration value="bar"/>
+      <xsd:enumeration value="fill"/>
+      <xsd:enumeration value="point"/>
+      <xsd:enumeration value="lineerror"/>
+      <xsd:enumeration value="barerror"/>
+    </xsd:restriction>
+  </xsd:simpleType>  
+
+  <xsd:complexType name="RendererOption">
+    <xsd:attribute name="name"  type="xsd:string" use="required"/>
+    <xsd:attribute name="value" type="xsd:string" use="required"/>
+    <xsd:attribute name="min"   type="xsd:string"/>
+    <xsd:attribute name="max"   type="xsd:string"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="PlotLegend">
+    <xsd:attribute name="visible"/>
+    <xsd:attribute name="label"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="Data">
+    <xsd:sequence>
+      <xsd:element name="variables"    type="Variables"   minOccurs="0" maxOccurs="1"/>
+      <xsd:choice>
+        <xsd:element name="values"     type="xsd:string"   minOccurs="0" maxOccurs="1"/>
+        <xsd:element name="csv"        type="CSVLocation" minOccurs="0" maxOccurs="1"/>
+        <xsd:element name="service"    type="CSVLocation" minOccurs="0" maxOccurs="1"/>
+      </xsd:choice>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="Variables">
+    <xsd:sequence>
+      <xsd:element name="variable"     type="Variable"    minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="missingvalue" type="xsd:string"/>
+    <xsd:attribute name="missingop"    type="xsd:string"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="Variable">
+    <xsd:attribute name="id"           type="xsd:string"/>
+    <xsd:attribute name="column"       type="xsd:integer" />
+    <xsd:attribute name="type"         type="DataType"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="CSVLocation">
+    <xsd:attribute name="location"     type="xsd:string"/>
+  </xsd:complexType>
+
+</xsd:schema>
