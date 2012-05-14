@@ -9,20 +9,44 @@
       <xsd:group ref="GraphContent"/>
       <xsd:element name="graph" type="Graph" minOccurs="1" maxOccurs="unbounded"/>
     </xsd:choice>
+    <xsd:attribute name="x"   type="xsd:integer"/>
+    <xsd:attribute name="y"   type="xsd:integer"/>
+    <xsd:attribute name="width"   type="xsd:integer"/>
+    <xsd:attribute name="height"   type="xsd:integer"/>
   </xsd:complexType>
 
   <xsd:group name="GraphContent">
+
+    <!--
+      * REVIEW: this does not say exactly what we want here.  What we want
+      * is to specify that the 8 elements below may appear intermixed in any
+      * order, but the window, legend, background, and plotarea elements may
+      * each appear at most once, whereas the horizontalaxis, verticalaxis,
+      * plot, data may each appear any number of times.  I am pretty sure that
+      * the way this is written now will allow all 8 of them to appear any
+      * number of times (because of the maxOccurrs="unbounded" on the
+      * containing xsd:choice element), but so far I have not been able to
+      * figure out how to write the xsd to express this exactly, so it is
+      * currently written to be too lenient.  HELP!
+      * mbp Thu May 10 09:07:20 EDT 2012
+    -->
     <xsd:sequence>
-      <xsd:element name="window"         type="Window"     minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="legend"         type="MuglLegend" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="background"     type="Background" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="plotarea"       type="Plotarea"   minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="horizontalaxis" type="Axis"       minOccurs="0" maxOccurs="unbounded"/>
-      <xsd:element name="verticalaxis"   type="Axis"       minOccurs="0" maxOccurs="unbounded"/>
-      <xsd:element name="plot"           type="Plot"       minOccurs="0" maxOccurs="unbounded"/>
-      <xsd:element name="data"           type="Data"       minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:choice minOccurs="0" maxOccurs="unbounded">
+	<xsd:element name="window"         type="Window"     minOccurs="0" maxOccurs="1"/>
+	<xsd:element name="legend"         type="MuglLegend" minOccurs="0" maxOccurs="1"/>
+	<xsd:element name="background"     type="Background" minOccurs="0" maxOccurs="1"/>
+	<xsd:element name="plotarea"       type="Plotarea"   minOccurs="0" maxOccurs="1"/>
+	<xsd:element name="horizontalaxis" type="Axis"       minOccurs="0" maxOccurs="unbounded"/>
+	<xsd:element name="verticalaxis"   type="Axis"       minOccurs="0" maxOccurs="unbounded"/>
+	<xsd:element name="plot"           type="Plot"       minOccurs="0" maxOccurs="unbounded"/>
+	<xsd:element name="data"           type="Data"       minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:choice>
     </xsd:sequence>
+
   </xsd:group>
+
+
+
 
   <xsd:complexType name="Window">
     <xsd:attribute name="width"   type="xsd:integer"/>
@@ -80,18 +104,20 @@
   </xsd:complexType>
 
   <xsd:complexType name="Axis">
-    <xsd:sequence>
+    <xsd:all>
       <xsd:element name="title"   type="Title"   minOccurs="0" maxOccurs="1"/>
       <xsd:element name="labels"  type="Labels"  minOccurs="0" maxOccurs="1"/>
       <xsd:element name="grid"    type="Grid"    minOccurs="0" maxOccurs="1"/>
       <xsd:element name="pan"     type="Pan"     minOccurs="0" maxOccurs="1"/>
       <xsd:element name="zoom"    type="Zoom"    minOccurs="0" maxOccurs="1"/>
       <xsd:element name="binding" type="Binding" minOccurs="0" maxOccurs="1"/>
-    </xsd:sequence>
+    </xsd:all>
     <xsd:attribute name="id"     type="xsd:string"/>
     <xsd:attribute name="type"   type="DataType"/>
     <xsd:attribute name="length"/>
     <xsd:attribute name="position"/>
+    <xsd:attribute name="pregap"/>
+    <xsd:attribute name="postgap"/>
     <xsd:attribute name="anchor" type="xsd:decimal"/>
     <xsd:attribute name="base"   type="xsd:string"/>
     <xsd:attribute name="min"/>
