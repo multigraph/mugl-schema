@@ -122,7 +122,7 @@
     <xsd:attribute name="margintop"    type="xsd:integer" default="10"/>
     <xsd:attribute name="marginright"  type="xsd:integer" default="35"/>
     <xsd:attribute name="border"       type="xsd:integer" default="0"/>
-    <xsd:attribute name="bordercolor"  type="xsd:integer" default="0xeeeeee"/>
+    <xsd:attribute name="bordercolor"  type="RGBColor"    default="0xeeeeee"/>
   </xsd:complexType>
 
   <xsd:simpleType name="DPoint">
