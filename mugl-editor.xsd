@@ -39,17 +39,19 @@
       * currently written to be too lenient.  HELP!
       * mbp Thu May 10 09:07:20 EDT 2012
     -->
-    <xsd:choice minOccurs="0" maxOccurs="unbounded">
-      <xsd:element name="window"         type="Window"     minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="ui"             type="UI"         minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="legend"         type="MuglLegend" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="background"     type="Background" minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="plotarea"       type="Plotarea"   minOccurs="0" maxOccurs="1"/>
-      <xsd:element name="horizontalaxis" type="Axis"       minOccurs="0" maxOccurs="unbounded"/>
-      <xsd:element name="verticalaxis"   type="Axis"       minOccurs="0" maxOccurs="unbounded"/>
-      <xsd:element name="plot"           type="Plot"       minOccurs="0" maxOccurs="unbounded"/>
-      <xsd:element name="data"           type="Data"       minOccurs="0" maxOccurs="unbounded"/>
-    </xsd:choice>
+    <xsd:sequence>
+      <xsd:choice minOccurs="0" maxOccurs="unbounded">
+	<xsd:element name="window"         type="Window"     minOccurs="0" maxOccurs="1"/>
+	<xsd:element name="ui"             type="UI"         minOccurs="0" maxOccurs="1"/>
+	<xsd:element name="legend"         type="MuglLegend" minOccurs="0" maxOccurs="1"/>
+	<xsd:element name="background"     type="Background" minOccurs="0" maxOccurs="1"/>
+	<xsd:element name="plotarea"       type="Plotarea"   minOccurs="0" maxOccurs="1"/>
+	<xsd:element name="horizontalaxis" type="Axis"       minOccurs="0" maxOccurs="unbounded"/>
+	<xsd:element name="verticalaxis"   type="Axis"       minOccurs="0" maxOccurs="unbounded"/>
+	<xsd:element name="plot"           type="Plot"       minOccurs="0" maxOccurs="unbounded"/>
+	<xsd:element name="data"           type="Data"       minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:choice>
+    </xsd:sequence>
   </xsd:group>
 
   <xsd:simpleType name="RGBColor">
@@ -138,13 +140,13 @@
 
   <xsd:complexType name="Axis">
     <xsd:all minOccurs="0" maxOccurs="1">
-      <xsd:element name="title"        type="Title"/>
-      <xsd:element name="labels"       type="Labels"/>
-      <xsd:element name="grid"         type="Grid"/>
-      <xsd:element name="pan"          type="Pan"/>
-      <xsd:element name="zoom"         type="Zoom"/>
-      <xsd:element name="binding"      type="Binding"/>
-      <xsd:element name="axiscontrols" type="AxisControls"/>
+      <xsd:element name="title"        type="Title"        minOccurs="0"/>
+      <xsd:element name="labels"       type="Labels"       minOccurs="0"/>
+      <xsd:element name="grid"         type="Grid"         minOccurs="0"/>
+      <xsd:element name="pan"          type="Pan"          minOccurs="0"/>
+      <xsd:element name="zoom"         type="Zoom"         minOccurs="0"/>
+      <xsd:element name="binding"      type="Binding"      minOccurs="0"/>
+      <xsd:element name="axiscontrols" type="AxisControls" minOccurs="0"/>
     </xsd:all>
     <xsd:attribute name="id"          type="xsd:string"/>
     <xsd:attribute name="type"        type="DataType"        default="number"/>
@@ -273,12 +275,12 @@
 
   <xsd:complexType name="Plot">
     <xsd:all minOccurs="0" maxOccurs="1">
-      <xsd:element name="legend"         type="PlotLegend"/>
-      <xsd:element name="horizontalaxis" type="PlotAxis"/>
-      <xsd:element name="verticalaxis"   type="PlotAxis"/>
-      <xsd:element name="filter"         type="PlotFilter"/>
-      <xsd:element name="renderer"       type="Renderer"/>
-      <xsd:element name="datatips"       type="Datatips"/>
+      <xsd:element name="legend"         type="PlotLegend" minOccurs="0"/>
+      <xsd:element name="horizontalaxis" type="PlotAxis"   minOccurs="0"/>
+      <xsd:element name="verticalaxis"   type="PlotAxis"   minOccurs="0"/>
+      <xsd:element name="filter"         type="PlotFilter" minOccurs="0"/>
+      <xsd:element name="renderer"       type="Renderer"   minOccurs="0"/>
+      <xsd:element name="datatips"       type="Datatips"   minOccurs="0"/>
     </xsd:all>
   </xsd:complexType>
 
