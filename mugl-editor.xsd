@@ -41,15 +41,18 @@
     -->
     <xsd:sequence>
       <xsd:choice minOccurs="0" maxOccurs="unbounded">
-	<xsd:element name="window"         type="Window"     minOccurs="0" maxOccurs="1"/>
-	<xsd:element name="ui"             type="UI"         minOccurs="0" maxOccurs="1"/>
-	<xsd:element name="legend"         type="MuglLegend" minOccurs="0" maxOccurs="1"/>
-	<xsd:element name="background"     type="Background" minOccurs="0" maxOccurs="1"/>
-	<xsd:element name="plotarea"       type="Plotarea"   minOccurs="0" maxOccurs="1"/>
-	<xsd:element name="horizontalaxis" type="Axis"       minOccurs="0" maxOccurs="unbounded"/>
-	<xsd:element name="verticalaxis"   type="Axis"       minOccurs="0" maxOccurs="unbounded"/>
-	<xsd:element name="plot"           type="Plot"       minOccurs="0" maxOccurs="unbounded"/>
-	<xsd:element name="data"           type="Data"       minOccurs="0" maxOccurs="unbounded"/>
+	<xsd:element name="window"         type="Window"         minOccurs="0" maxOccurs="1"/>
+	<xsd:element name="ui"             type="UI"             minOccurs="0" maxOccurs="1"/>
+	<xsd:element name="networkmonitor" type="NetworkMonitor" minOccurs="0" maxOccurs="1"/>
+	<xsd:element name="debugger"       type="Debugger"       minOccurs="0" maxOccurs="1"/>
+	<xsd:element name="legend"         type="MuglLegend"     minOccurs="0" maxOccurs="1"/>
+	<xsd:element name="background"     type="Background"     minOccurs="0" maxOccurs="1"/>
+	<xsd:element name="plotarea"       type="Plotarea"       minOccurs="0" maxOccurs="1"/>
+	<xsd:element name="title"          type="MuglTitle"      minOccurs="0" maxOccurs="1"/>
+	<xsd:element name="horizontalaxis" type="Axis"           minOccurs="0" maxOccurs="unbounded"/>
+	<xsd:element name="verticalaxis"   type="Axis"           minOccurs="0" maxOccurs="unbounded"/>
+	<xsd:element name="plot"           type="Plot"           minOccurs="0" maxOccurs="unbounded"/>
+	<xsd:element name="data"           type="Data"           minOccurs="0" maxOccurs="unbounded"/>
       </xsd:choice>
     </xsd:sequence>
   </xsd:group>
@@ -76,6 +79,16 @@
 
   <xsd:complexType name="UI">
     <xsd:attribute name="eventhandler"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="NetworkMonitor">
+    <xsd:attribute name="visible"/>
+    <xsd:attribute name="fixed"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="Debugger">
+    <xsd:attribute name="visible"/>
+    <xsd:attribute name="fixed"/>
   </xsd:complexType>
 
   <xsd:complexType name="MuglLegend">
@@ -127,6 +140,18 @@
     <xsd:attribute name="bordercolor"  type="RGBColor"    default="0xeeeeee"/>
   </xsd:complexType>
 
+  <xsd:complexType name="MuglTitle" mixed="true">
+    <xsd:attribute name="base"/>
+    <xsd:attribute name="border"/>
+    <xsd:attribute name="color"       type="RGBColor"/>
+    <xsd:attribute name="bordercolor" type="RGBColor"/>
+    <xsd:attribute name="opacity"/>
+    <xsd:attribute name="padding"/>
+    <xsd:attribute name="cornerradius"/>
+    <xsd:attribute name="position"/>
+    <xsd:attribute name="anchor"/>
+  </xsd:complexType>
+
   <xsd:simpleType name="DPoint">
     <xsd:annotation>
     <xsd:appinfo>
@@ -140,7 +165,7 @@
 
   <xsd:complexType name="Axis">
     <xsd:all minOccurs="0" maxOccurs="1">
-      <xsd:element name="title"        type="Title"        minOccurs="0"/>
+      <xsd:element name="title"        type="AxisTitle"    minOccurs="0"/>
       <xsd:element name="labels"       type="Labels"       minOccurs="0"/>
       <xsd:element name="grid"         type="Grid"         minOccurs="0"/>
       <xsd:element name="pan"          type="Pan"          minOccurs="0"/>
@@ -213,7 +238,7 @@
     </xsd:restriction>
   </xsd:simpleType>
 
-  <xsd:complexType name="Title" mixed="true">
+  <xsd:complexType name="AxisTitle" mixed="true">
     <xsd:attribute name="position"/>
     <xsd:attribute name="anchor"/>
     <xsd:attribute name="angle" type="xsd:double"/>
