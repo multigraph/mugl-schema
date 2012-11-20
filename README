@@ -1,1 +1,13 @@
-This is the git repository for the mugl-schema project.
+This project contains the master copy of the XSD schema file that
+defines the specification for MUGL files; the file is "mugl.xsd".
+
+This file is maintained in its own project so that other projects that
+need to use the XSD file can reference this project, and there is just
+one master copy of the file to maintain.
+
+The project github.com:multigraph/java-multigraph contains several
+test mugl files and a build script for automatically validating them.
+
+In addition to the "master" branch, this project has an "experimental"
+branch which contains a copy of the schema file for an older, incomplete
+Java version of Multigraph (project github.com:multigraph/java-multigraph).
