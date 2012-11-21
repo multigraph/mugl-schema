@@ -138,6 +138,7 @@
     <xsd:attribute name="marginright"  type="xsd:integer" default="35"/>
     <xsd:attribute name="border"       type="xsd:integer" default="0"/>
     <xsd:attribute name="bordercolor"  type="RGBColor"    default="0xeeeeee"/>
+    <xsd:attribute name="color"        type="RGBColor"/>
   </xsd:complexType>
 
   <xsd:complexType name="MuglTitle" mixed="true">
@@ -150,9 +151,16 @@
     <xsd:attribute name="cornerradius"/>
     <xsd:attribute name="position"/>
     <xsd:attribute name="anchor"/>
+    <xsd:attribute name="fontsize" type="xsd:integer"/>
   </xsd:complexType>
 
   <xsd:simpleType name="DPoint">
+    <!--
+    A DPoint is a 2-dimensional point with floating point coordinates.  The two floating point
+    values must be separated from each other either by a single comma, possibly with whitespace
+    before and after it, or just by whitespace.  Any leading or trailing whitespace at the beginning
+    or end of the DPoint value is ignored.
+    -->
     <xsd:annotation>
     <xsd:appinfo>
       <jxb:javaType name="org.multigraph.DPoint"
@@ -160,7 +168,18 @@
                     printMethod="org.multigraph.DPoint.toString"/>
     </xsd:appinfo>
     </xsd:annotation>
-    <xsd:restriction base="xsd:string"/>
+    <xsd:restriction base="xsd:token">
+      <xsd:pattern value="\s*(-|\+)?[0-9\.]+(\s+|(\s*,\s*))(-|\+)?[0-9\.]+\s*"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="DPointOrNumber">
+    <!--
+    This is a pattern that matches either a DPoint, or a single number
+    -->
+    <xsd:restriction base="xsd:token">
+      <xsd:pattern value="\s*((-|\+)?[0-9\.]+(\s+|(\s*,\s*))(-|\+)?[0-9\.]+)|([0-9\.]+)\s*"/>
+    </xsd:restriction>
   </xsd:simpleType>
 
   <xsd:complexType name="Axis">
@@ -175,12 +194,12 @@
     </xsd:all>
     <xsd:attribute name="id"          type="xsd:string"/>
     <xsd:attribute name="type"        type="DataType"        default="number"/>
-    <xsd:attribute name="length"      type="xsd:double"      default="1.0"/>
-    <xsd:attribute name="position"    type="xsd:integer"     default="0"/>
+    <xsd:attribute name="length"      type="Displacement"    default="1.0"/>
+    <xsd:attribute name="position"    type="DPointOrNumber"  default="0,0"/>
     <xsd:attribute name="pregap"/>
     <xsd:attribute name="postgap"/>
     <xsd:attribute name="anchor"/>
-    <xsd:attribute name="base"        type="xsd:string"      default="-1 1"/>
+    <xsd:attribute name="base"        type="DPoint"          default="-1 1"/>
     <xsd:attribute name="min"         type="DataValueString" default="auto"/>
     <xsd:attribute name="minoffset"/>
     <xsd:attribute name="minposition"/>
@@ -191,6 +210,7 @@
     <xsd:attribute name="color"       type="RGBColor"        default="0x000000"/>
     <xsd:attribute name="tickmin"     type="xsd:integer"     default="-3"/>
     <xsd:attribute name="tickmax"     type="xsd:integer"     default="3"/>
+    <xsd:attribute name="tickcolor"   type="RGBColor"        default="0x000000"/>
     <xsd:attribute name="highlightstyle"/>
     <xsd:attribute name="linewidth"   type="xsd:integer"     default="1"/>
     <xsd:attribute name="orientation" type="AxisOrientation" default="unknown"/>
@@ -220,6 +240,16 @@
     </xsd:appinfo>
     </xsd:annotation>
     <xsd:restriction base="xsd:string">
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="Displacement">
+    <!--
+    A Displacement is an expression of the form "A", "A+B", or "A-B", where A and B
+    are both real numbers.
+    -->
+    <xsd:restriction base="xsd:token">
+      <xsd:pattern value="[0-9\.]+((\+|-)[0-9\.]+)?"/>
     </xsd:restriction>
   </xsd:simpleType>
 
@@ -258,6 +288,7 @@
     <xsd:attribute name="angle"    type="xsd:double" default="0.0"/>
     <xsd:attribute name="position" type="DPoint"     default="0 0"/>
     <xsd:attribute name="anchor"   type="DPoint"     default="0 0"/>
+    <xsd:attribute name="color"    type="RGBColor"   default="0x000000"/>
     <xsd:attribute name="spacing"  type="xsd:string" default="10000 5000 2000 1000 500 200 100 50 20 10 5 2 1 0.1 0.01 0.001"/>
     <xsd:attribute name="defaultDatetimeSpacing" type="xsd:string"
      fixed="1000Y 500Y 200Y 100Y 50Y 20Y 10Y 5Y 2Y 1Y 6M 3M 2M 1M 7D 3D 2D 1D 12H 6H 3H 2H 1H"/>
@@ -319,11 +350,13 @@
 
   <xsd:complexType name="PlotVariable">
     <xsd:attribute name="ref" type="xsd:string" use="required"/>
+    <xsd:attribute name="legendlabel" type="xsd:string"/>
     <xsd:attribute name="factor"/>
   </xsd:complexType>
 
   <xsd:complexType name="PlotConstant">
     <xsd:attribute name="value" type="xsd:string" use="required"/>
+    <xsd:attribute name="legendlabel" type="xsd:string"/>
   </xsd:complexType>
 
   <xsd:complexType name="Renderer">
@@ -342,13 +375,15 @@
     </xsd:appinfo>
     </xsd:annotation>
     <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="pointline"/>
+      <xsd:enumeration value="point"/>
       <xsd:enumeration value="line"/>
       <xsd:enumeration value="bar"/>
       <xsd:enumeration value="fill"/>
-      <xsd:enumeration value="point"/>
+      <xsd:enumeration value="rangebar"/>
+      <xsd:enumeration value="band"/>
       <xsd:enumeration value="lineerror"/>
       <xsd:enumeration value="barerror"/>
-      <xsd:enumeration value="pointline"/>
     </xsd:restriction>
   </xsd:simpleType>  
 
@@ -397,8 +432,8 @@
       <xsd:element name="variables" type="Variables" minOccurs="0" maxOccurs="1"/>
       <xsd:choice>
         <xsd:element name="values"  type="xsd:string"  minOccurs="0" maxOccurs="1"/>
-        <xsd:element name="csv"     type="CSVLocation" minOccurs="0" maxOccurs="1"/>
-        <xsd:element name="service" type="CSVLocation" minOccurs="0" maxOccurs="1"/>
+        <xsd:element name="csv"     type="CSV"         minOccurs="0" maxOccurs="1"/>
+        <xsd:element name="service" type="Service" minOccurs="0" maxOccurs="1"/>
       </xsd:choice>
     </xsd:sequence>
   </xsd:complexType>
@@ -419,8 +454,13 @@
     <xsd:attribute name="missingop"    type="xsd:string"/>
   </xsd:complexType>
 
-  <xsd:complexType name="CSVLocation">
+  <xsd:complexType name="CSV">
     <xsd:attribute name="location" type="xsd:string"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="Service">
+    <xsd:attribute name="location" type="xsd:string"/>
+    <xsd:attribute name="format" type="xsd:string"/>
   </xsd:complexType>
 
 </xsd:schema>
