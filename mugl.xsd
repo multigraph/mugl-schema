@@ -313,9 +313,10 @@
   </xsd:simpleType>
 
   <xsd:complexType name="AxisTitle" mixed="true">
-    <xsd:attribute name="position"/>
-    <xsd:attribute name="anchor"/>
-    <xsd:attribute name="angle" type="xsd:double" default="0"/>
+    <xsd:attribute name="position" type="DPoint"/>
+    <xsd:attribute name="anchor"   type="DPoint"/>
+    <xsd:attribute name="base"     type="xsd:double" default="0"/>
+    <xsd:attribute name="angle"    type="xsd:double" default="0"/>
   </xsd:complexType>
 
   <xsd:complexType name="Grid">
@@ -328,7 +329,7 @@
       <xsd:element minOccurs="0" maxOccurs="unbounded" name="label" type="Label"/>
     </xsd:sequence>
     <xsd:attribute name="format"   type="xsd:string" default="%1d"/>
-    <xsd:attribute name="start"    type="xsd:string" default="0"/>
+    <xsd:attribute name="start"    type="DataValue"  default="0"/>
     <xsd:attribute name="angle"    type="xsd:double" default="0.0"/>
     <xsd:attribute name="position" type="DPoint"     default="0 0"/>
     <xsd:attribute name="anchor"   type="DPoint"     default="0 0"/>
@@ -342,7 +343,7 @@
 
   <xsd:complexType name="Label">
     <xsd:attribute name="format"   type="xsd:string"/>
-    <xsd:attribute name="start"    type="xsd:string"/>
+    <xsd:attribute name="start"    type="DataValue"/>
     <xsd:attribute name="angle"    type="xsd:double"/>
     <xsd:attribute name="position" type="DPoint"/>
     <xsd:attribute name="anchor"   type="DPoint"/>
