@@ -276,6 +276,11 @@
     <xsd:union memberTypes="DataValue AutoValue"/>
   </xsd:simpleType>
 
+  <xsd:simpleType name="DataMeasure">
+    <xsd:restriction base="xsd:string">
+    </xsd:restriction>
+  </xsd:simpleType>
+
   <xsd:simpleType name="YesNo">
     <xsd:restriction base="xsd:string">
       <xsd:enumeration value="yes"/>
@@ -359,8 +364,8 @@
 
   <xsd:complexType name="Zoom">
     <xsd:attribute name="allowed" type="Boolean" default="yes"/>
-    <xsd:attribute name="min"     type="DataValue"/>
-    <xsd:attribute name="max"     type="DataValue"/>
+    <xsd:attribute name="min"     type="DataMeasure"/>
+    <xsd:attribute name="max"     type="DataMeasure"/>
     <xsd:attribute name="anchor"  type="DataValue"/>
   </xsd:complexType>
 
@@ -397,8 +402,10 @@
 
   <xsd:complexType name="PlotVariable">
     <xsd:attribute name="ref" type="xsd:string" use="required"/>
+<!--
     <xsd:attribute name="legendlabel" type="xsd:string"/>
     <xsd:attribute name="factor"/>
+-->
   </xsd:complexType>
 
   <xsd:complexType name="PlotConstant">
@@ -437,41 +444,41 @@
   <xsd:complexType name="RendererOption">
     <xsd:attribute name="name"  type="xsd:string" use="required"/>
     <xsd:attribute name="value" type="xsd:string" use="required"/>
-    <xsd:attribute name="min"   type="xsd:double"/>
-    <xsd:attribute name="max"   type="xsd:double"/>
+    <xsd:attribute name="min"   type="DataValue"/>
+    <xsd:attribute name="max"   type="DataValue"/>
   </xsd:complexType>
 
   <xsd:complexType name="PlotFilter">
     <xsd:sequence>
       <xsd:element name="option" type="FilterOption" minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
-    <xsd:attribute name="type"/>
+    <xsd:attribute name="type" type="xsd:string"/>
   </xsd:complexType>
 
   <xsd:complexType name="FilterOption">
-    <xsd:attribute name="name"/>
-    <xsd:attribute name="value"/>
+    <xsd:attribute name="name" type="xsd:string"/>
+    <xsd:attribute name="value" type="xsd:string"/>
   </xsd:complexType>
 
   <xsd:complexType name="PlotLegend">
-    <xsd:attribute name="visible"/>
-    <xsd:attribute name="label"/>
+    <xsd:attribute name="visible" type="Boolean"/>
+    <xsd:attribute name="label"   type="xsd:string"/>
   </xsd:complexType>
 
   <xsd:complexType name="Datatips">
     <xsd:sequence>
       <xsd:element name="variable" type="DatatipsVariable" minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
-    <xsd:attribute name="format"/>
-    <xsd:attribute name="bgcolor"/>
-    <xsd:attribute name="bgalpha"/>
-    <xsd:attribute name="border"/>
-    <xsd:attribute name="bordercolor"/>
-    <xsd:attribute name="pad"/>
+    <xsd:attribute name="format"      type="xsd:string"/>
+    <xsd:attribute name="bgcolor"     type="RGBColor"/>
+    <xsd:attribute name="bgalpha"     type="xsd:double"/>
+    <xsd:attribute name="border"      type="xsd:integer"/>
+    <xsd:attribute name="bordercolor" type="RGBColor"/>
+    <xsd:attribute name="pad"         type="xsd:integer"/>
   </xsd:complexType>
 
   <xsd:complexType name="DatatipsVariable">
-    <xsd:attribute name="format"/>
+    <xsd:attribute name="format" type="xsd:string"/>
   </xsd:complexType>
 
   <xsd:complexType name="Data">
@@ -480,7 +487,7 @@
       <xsd:choice>
         <xsd:element name="values"  type="xsd:string"  minOccurs="0" maxOccurs="1"/>
         <xsd:element name="csv"     type="CSV"         minOccurs="0" maxOccurs="1"/>
-        <xsd:element name="service" type="Service" minOccurs="0" maxOccurs="1"/>
+        <xsd:element name="service" type="Service"     minOccurs="0" maxOccurs="1"/>
       </xsd:choice>
     </xsd:sequence>
   </xsd:complexType>
