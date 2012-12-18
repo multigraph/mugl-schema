@@ -402,15 +402,10 @@
 
   <xsd:complexType name="PlotVariable">
     <xsd:attribute name="ref" type="xsd:string" use="required"/>
-<!--
-    <xsd:attribute name="legendlabel" type="xsd:string"/>
-    <xsd:attribute name="factor"/>
--->
   </xsd:complexType>
 
   <xsd:complexType name="PlotConstant">
     <xsd:attribute name="value" type="xsd:string" use="required"/>
-    <xsd:attribute name="legendlabel" type="xsd:string"/>
   </xsd:complexType>
 
   <xsd:complexType name="Renderer">
