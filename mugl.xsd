@@ -491,8 +491,8 @@
     <xsd:sequence>
       <xsd:element name="variable" type="Variable" minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
-    <xsd:attribute name="missingvalue" type="xsd:string"/>
-    <xsd:attribute name="missingop"    type="xsd:string"/>
+    <xsd:attribute name="missingvalue" type="DataValue"/>
+    <xsd:attribute name="missingop"    type="Comparator" default="eq"/>
   </xsd:complexType>
 
   <xsd:complexType name="Variable">
@@ -503,12 +503,22 @@
     <xsd:attribute name="missingop"    type="xsd:string"/>
   </xsd:complexType>
 
+  <xsd:simpleType name="Comparator">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="lt"/>
+      <xsd:enumeration value="le"/>
+      <xsd:enumeration value="eq"/>
+      <xsd:enumeration value="ge"/>
+      <xsd:enumeration value="gt"/>
+    </xsd:restriction>
+  </xsd:simpleType>  
+
   <xsd:complexType name="CSV">
-    <xsd:attribute name="location" type="xsd:string"/>
+    <xsd:attribute name="location" type="xsd:string" use="required"/>
   </xsd:complexType>
 
   <xsd:complexType name="Service">
-    <xsd:attribute name="location" type="xsd:string"/>
+    <xsd:attribute name="location" type="xsd:string" use="required"/>
     <xsd:attribute name="format" type="xsd:string"/>
   </xsd:complexType>
 
