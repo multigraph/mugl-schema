@@ -52,6 +52,7 @@
         <xsd:element name="horizontalaxis" type="Axis"           minOccurs="0" maxOccurs="unbounded"/>
         <xsd:element name="verticalaxis"   type="Axis"           minOccurs="0" maxOccurs="unbounded"/>
         <xsd:element name="plot"           type="Plot"           minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element name="throttle"       type="Throttle"       minOccurs="0" maxOccurs="unbounded"/>
         <xsd:element name="data"           type="Data"           minOccurs="0" maxOccurs="unbounded"/>
       </xsd:choice>
     </xsd:sequence>
@@ -474,6 +475,13 @@
 
   <xsd:complexType name="DatatipsVariable">
     <xsd:attribute name="format" type="xsd:string"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="Throttle">
+    <xsd:attribute name="pattern"    type="xsd:string"/>
+    <xsd:attribute name="requests"   type="xsd:integer" default="0"/>
+    <xsd:attribute name="period"     type="xsd:integer" default="0"/>
+    <xsd:attribute name="concurrent" type="xsd:integer" default="0"/>
   </xsd:complexType>
 
   <xsd:complexType name="Data">
